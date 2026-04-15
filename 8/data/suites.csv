@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","8954","Verify successful login with valid credentials","Automation Suite","Wed Apr 15 22:49:06 UTC 2026","passed","Wed Apr 15 22:49:15 UTC 2026","tests.LoginTest","Login Tests","tests.LoginTest","validLoginTest"
+"","4912","Verify error message with invalid credentials","Automation Suite","Wed Apr 15 22:49:06 UTC 2026","passed","Wed Apr 15 22:49:11 UTC 2026","tests.LoginTest","Login Tests","tests.LoginTest","invalidLoginTest"
+"","4993","Verify validation messages when fields are empty","Automation Suite","Wed Apr 15 22:49:06 UTC 2026","passed","Wed Apr 15 22:49:11 UTC 2026","tests.LoginTest","Login Tests","tests.LoginTest","emptyFieldsTest"
