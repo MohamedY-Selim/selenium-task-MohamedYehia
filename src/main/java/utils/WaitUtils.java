@@ -3,10 +3,8 @@ package utils;
 import factory.DriverFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
-import java.util.function.Function;
 
 public class WaitUtils {
 
@@ -25,7 +23,7 @@ public class WaitUtils {
                 .ignoring(StaleElementReferenceException.class);
     }
 
-    // ===== Visibility =====
+    // Visibility
     public static WebElement waitForVisibility(By locator) {
         return getFluentWait(DEFAULT_TIMEOUT)
                 .until(driver -> driver.findElement(locator).isDisplayed()
@@ -33,7 +31,7 @@ public class WaitUtils {
                         : null);
     }
 
-    // ===== Clickable =====
+    // Clickable
     public static WebElement waitForClickable(By locator) {
         return getFluentWait(DEFAULT_TIMEOUT)
                 .until(driver -> {
@@ -42,13 +40,13 @@ public class WaitUtils {
                 });
     }
 
-    // ===== Presence =====
+    // Presence
     public static WebElement waitForPresence(By locator) {
         return getFluentWait(DEFAULT_TIMEOUT)
                 .until(driver -> driver.findElement(locator));
     }
 
-    // ===== Invisibility =====
+    // Invisibility
     public static boolean waitForInvisibility(By locator) {
         return getFluentWait(DEFAULT_TIMEOUT)
                 .until(driver -> {
