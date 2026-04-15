@@ -3,8 +3,8 @@ package tests;
 import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.LoginPage;
-import utils.AllureUtils;
 import utils.JsonUtils;
 
 public class LoginTest extends BaseTest {
@@ -17,32 +17,33 @@ public class LoginTest extends BaseTest {
         logger.info("Running valid login test");
 
         LoginPage loginPage = new LoginPage();
+        SoftAssert softAssert = new SoftAssert();
 
         loginPage.load().login(username, password);
 
-        AllureUtils.logStep("Assert success screen is displayed");
-        Assert.assertTrue(
+        softAssert.assertTrue(
                 loginPage.isSuccessScreenDisplayed(),
                 "Success screen should be displayed after valid login"
         );
 
-        AllureUtils.logStep("Assert success heading text");
-        Assert.assertEquals(
+        softAssert.assertEquals(
                 loginPage.getSuccessHeadingText(),
-                "You're logged in successfully!"
+                "You're logged in successfully!",
+                "Success heading text is incorrect"
         );
 
-        AllureUtils.logStep("Assert welcome message contains username");
-        Assert.assertTrue(
+        softAssert.assertTrue(
                 loginPage.getSuccessMessageText().contains(username),
                 "Success message should contain the logged in username"
         );
 
-        Assert.assertEquals(
+        softAssert.assertEquals(
                 loginPage.getLoggedInUsernameText(),
                 username,
                 "Logged in username should match the entered username"
         );
+
+        softAssert.assertAll();
     }
 
     @Test(description = "Verify error message with invalid credentials")
@@ -56,7 +57,6 @@ public class LoginTest extends BaseTest {
 
         loginPage.load().login(username, password);
 
-        AllureUtils.logStep("Assert error message is displayed");
         Assert.assertTrue(
                 loginPage.isErrorDisplayed(),
                 "Error message should be displayed for invalid login"
@@ -76,40 +76,42 @@ public class LoginTest extends BaseTest {
         logger.info("Running empty fields test");
 
         LoginPage loginPage = new LoginPage();
+        SoftAssert softAssert = new SoftAssert();
 
         loginPage.load().login(username, password);
 
-        AllureUtils.logStep("Assert username validation message");
-        Assert.assertTrue(
+        softAssert.assertTrue(
                 loginPage.isUsernameErrorDisplayed(),
                 "Username required message should be displayed"
         );
 
-        Assert.assertEquals(
+        softAssert.assertEquals(
                 loginPage.getUsernameErrorMessage(),
-                "Username is required."
+                "Username is required.",
+                "Username validation message is incorrect"
         );
 
-        AllureUtils.logStep("Assert password validation message");
-        Assert.assertTrue(
+        softAssert.assertTrue(
                 loginPage.isPasswordErrorDisplayed(),
                 "Password required message should be displayed"
         );
 
-        Assert.assertEquals(
+        softAssert.assertEquals(
                 loginPage.getPasswordErrorMessage(),
-                "Password is required."
+                "Password is required.",
+                "Password validation message is incorrect"
         );
 
-        AllureUtils.logStep("Assert input error styling");
-        Assert.assertTrue(
+        softAssert.assertTrue(
                 loginPage.getUsernameInputClass().contains("input-error"),
                 "Username input should have error styling"
         );
 
-        Assert.assertTrue(
+        softAssert.assertTrue(
                 loginPage.getPasswordInputClass().contains("input-error"),
                 "Password input should have error styling"
         );
+
+        softAssert.assertAll();
     }
 }
