@@ -12,6 +12,20 @@ The framework is designed using Page Object Model (POM), reusable utility classe
 
 ---
 
+## 🔗 Live Allure Report
+
+You can view the latest test execution report here:
+
+👉 https://mohamedy-selim.github.io/selenium-task-MohamedYehia/
+
+---
+
+## 📸 Report Preview
+
+![Allure Report](docs/report.png)
+
+---
+
 ## Test Scenarios
 
 ### TC-001: Successful Login
