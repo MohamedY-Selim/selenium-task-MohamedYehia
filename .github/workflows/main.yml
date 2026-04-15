@@ -1,0 +1,72 @@
+name: CI - Run Tests & Publish Allure
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '24'
+          cache: maven
+
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Run tests (headless)
+        run: |
+          mvn -B test \
+            -Dbrowser=chrome \
+            -Dheadless=true \
+            -Dallure.results.directory=target/allure-results
+
+      - name: Upload allure-results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: target/allure-results
+
+  publish-report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download allure-results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: ./allure-results
+
+      - name: Generate Allure report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: ./allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 10
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./allure-history
+          force_orphan: true
+          enable_jekyll: false
